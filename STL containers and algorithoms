@@ -1,4 +1,4 @@
-.................................. Standard Librarys (STL) ...........................
+......................................... Standard Librarys (STL) C++ ........................................
 Sequence container: vector, list, forward_list, deque
 
 1) Vector: array but size changable. can handle different length in every single row and col
@@ -19,8 +19,11 @@ vector<int> v(5);     //size 5, all element 0
   vec.clear()             // now size is 0 but capacity stil 4. for clear capacity after clear(); vec.shrink_to_fit(); 
   vec.empty()             // return 1 empty 0 not empty
   vec.erase ( vec.begin(), vec.begin() + 3) // remove first two. erase(vec.begin()) 
-  vec.insert( vec.begin () + 2, 100 )       // 10 10 100 10.  insert(pos, count, value),  insert(pos, first, last) //include another container
+  vec.insert( vec.begin () + 2, 100 )       // 10 10 100 10.  
+  insert(pos, count, value),  
+  insert(pos, first, last) //insert another container
   //for multiple insert {1,2,3,4} at value
+
 //include <algorithm>
   reverse(vec.begin(), vec.end()); 
   cout<< *(vec.begin()); //1 
@@ -359,6 +362,7 @@ tie(a,b,ignore) = t; //last one not stored
 #include <functional>   
     equal_to<int> eq;
     not_equal_to, greater, less, greater_equal, less_equal, logical_and, logical_or, logical_not 
+
 #include <cmath> 
 pow(2, 3)  //8
 sqrt(16)   //or pow(16, 1.0/2.0)
@@ -368,18 +372,19 @@ abs(-1000) //1000
 3) Hash: convert a key (string, integer, object) in hash code 
 then store data in bucket with that hash code. search/insert/delete average 1 time need
 #include <bits/stdc++.h>
-    string key = "Rahim";
+    string key = "Farabi";
     hash<string> h;
     size_t hashValue = h(key);
-    cout << "Hash of " << key << " = " << hashValue ;  //Hash of Rahim = 1234567890 
+    cout << key << hashValue ;  // Farabi 1234567890 
       
     int bucketIndex = hashValue % 10;
-    cout << "Bucket index = " << bucketIndex << endl; //Bucket index = 0             
+    cout << bucketIndex << endl; //0             
 
     unordered_map<string,int> marks;
-    marks["Rahim"] = 95;
-    marks["Karim"] = 88;
-    cout << "Rahim -> " << marks["Rahim"] << endl;     //Rahim -> 95
+    marks["Farabi"] = 95;
+    marks["Neon"] = 88;
+    cout << marks["Farabi"] << endl;     // 95
+
     for(auto &p : marks){
         cout << p.first << " stored in bucket " << marks.bucket(p.first) << endl;
-    }   //Rahim stored in bucket 3 , Karim stored in bucket 7
+    }   //Farabi stored in bucket 3 , Neon stored in bucket 7
