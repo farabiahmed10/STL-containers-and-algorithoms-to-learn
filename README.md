@@ -1,2 +1,2 @@
-# an overview of stl data structures and algorithoms, their initializations and importt librarys to learn
+# an overview of stl data structures and algorithoms, their initializations and importt librarys to learn C++
  
