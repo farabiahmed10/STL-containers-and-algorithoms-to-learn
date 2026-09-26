@@ -1,0 +1,385 @@
+.................................. Standard Librarys (STL) ...........................
+Sequence container: vector, list, forward_list, deque
+
+1) Vector: array but size changable. can handle different length in every single row and col
+#include <vector>
+vector<int> v;        //size 0 
+vector<int> v(5);     //size 5, all element 0
+            v(5, 10); //size 5, all element 10. or, v.assign(5,10) 
+            nums = {1, 2, 3, 4, 5};
+            v(nums)   //v = nums  or, v.assign(nums.begin(), nums.end());
+            v.swap(nums)
+
+  vec.push_back(3)  vec.pop_back()
+  vec.size()              //total elements
+  vec.capacity()          //for 3 element capacity 4, for 4 element 4, for 5 element 8 
+  vec[2], vec.at(2)  
+  vec.front(), vec.back() //returnes 1st and last.
+  vec.resize(2)    
+  vec.clear()             // now size is 0 but capacity stil 4. for clear capacity after clear(); vec.shrink_to_fit(); 
+  vec.empty()             // return 1 empty 0 not empty
+  vec.erase ( vec.begin(), vec.begin() + 3) // remove first two. erase(vec.begin()) 
+  vec.insert( vec.begin () + 2, 100 )       // 10 10 100 10.  insert(pos, count, value),  insert(pos, first, last) //include another container
+  //for multiple insert {1,2,3,4} at value
+//include <algorithm>
+  reverse(vec.begin(), vec.end()); 
+  cout<< *(vec.begin()); //1 
+//vector pointer
+  vector<int> v = {10,20,30,40,50};
+  int* p = &v[0];     
+  for (int i = 0; i < v.size(); i++) {
+        cout << *(p+i) << " ";} 
+
+//2D Vector 
+vector<vector<int>> marks = {
+    {80, 90},           
+    {70, 85, 88},       
+    {92}};
+or,
+vector<vector<int>> mat;    
+for(int i = 0; i < rows; i++) {
+    vector<int> row;       
+    for(int j = 0; j < cols; j++) { 
+        cin >> val;
+        row.push_back(val);}
+    mat.push_back(row);  
+}  
+for(int i = 0; i < marks.size(); i++) { 
+    for(int j = 0; j < marks[i].size(); j++) {
+        cout << marks[i][j] << " ";}
+    cout << endl;
+}
+
+//Iterator - explore all containers with same logic (begin(), end()) 
+  vector<int>  var = {1,2,3,4,5};
+  vector<int> :: iterator it; //declare iterator
+  for (it = begin (); it!= end(); it++ ){
+    cout<< *(it)<< endl;}
+//reverse 
+  for (auto it = rbegin (); it!= rend(); it++ ){ //with auto. no need declare iterator
+    cout<< *it<< endl;} 
+
+begin()  - first elements iterator
+end()    - after last imaginary position
+rbegin() - last elements iterator 
+rend()   - before first imaginary position //begin-rbegin wrong form 
+
+#include <iterator> 
+auto it = v.begin(); advance(it, 3);  cout << *it << endl;  // 4th value
+distance(v.begin(), v.end()) // distance between two iterators 
+
+ 
+2) List (Linked-list) : same as Vector, but list can add and remove elements from both the beginning and at the end 
+list & Forward list does not support random access, like we cant do l[4] or l.at[4].
+#include<list> 
+  list <int> l;
+  l.push_back(1)  l.push_front(3)  l.pop_back()  l.pop_fornt()   
+  l.front(), l.back()  l.empty()  clear() l.size()  l.swap(b)  l.sort() 
+  assign(n, val)  remove(val)  resize(n)  resize(n, val)  l.reverse()   l.unique()  
+  l.merge(l2) // sorted input & output. l2 now empty   
+  l.remove_if([](int x){ return x % 2 == 0; }); // odd remains 
+// insert 15 at pos 1
+auto it = mylist.begin(); 
+advance(it, 1);             
+mylist.insert(it, 15);  // for multiple insert {1,2,3,4,4} at the value
+mylist.erase(it); //erase 15
+
+//move node one list to another list
+list<int> l1 = {1,2,3};
+list<int> l2 = {10,20,30};
+auto it = l1.begin(); 
+advance(it,2);
+l1.splice(it, l2);    // l1: 1 2 10 20 30 3  l2: empty. Insert create new node, but splice move current node 
+
+//emplace
+list<pair<int,string>> l;
+l.emplace_back(1,"one");    // object create in back  
+l.emplace_front(2,"two");   // object create in front
+ 
+Forward list :  Every node in list have 2 pointer but forward_list have one pointer (forward). Memory save half 
+#include <forward_list>
+  forward_list<int> fl = {1, 2, 3, 4, 5}
+  fl.push_front(10), fl.pop_front(); 
+  fl.front()
+auto it = fl.begin(); //insert after first value
+  fl.insert_after(it, 100); 
+  fl.erase_after(it);
+  x.splice_after(x.begin(), y);
+
+Iterator: begin() , end()
+
+
+3) Deque: Double Ended Queue
+Deque and vector are same just we can add element in both side without shift  
+a queue are added at the end and removed from the front. 
+but in deque can be added and removed from both ends (front and back). can also access elements by index numbers.
+#include <deque>
+deque<int> d = {10,20,30};
+push_back(x), push_front(x)	pop_back(), pop_front()	 
+front(), back()	 at(i), dq[i] size(), empty(), clear() erase(pos), swap(dq2), resize(n)
+assign(n, val), assign(range)
+insert(pos, val)  
+dq.insert(dq.begin()+1, 99);  
+dq.insert(dq.begin()+2, 3, 7); // 7 7 7  in idx 2 
+dq.insert(dq.begin(), v.begin(), v.end());  
+
+Container adaptor: use other container for specific behaviour. (stack (LIFO) , queue (FIFO), priority_queue)
+1) Stack: Stores multiple elements as Last in first out Order(LIFO) 
+#include<stack> 
+  stack <int> s; 
+  s.push (1); 
+  s.push (2);
+  s.push (3);
+cout<< s.top << endl; // 3 
+   s.pop(); remove top element 
+while( !s.empty()) {
+    cout<< s.top << " ";
+    s.pop();
+} // 3 2 1
+s2.swap(s);  
+s.empty()
+s.size()
+
+2) Queue: First in First Out (FIFO)
+#include<queue> 
+ queue<int> s; 
+  s.push (1);
+  s.push (2);
+  s.push (3);
+   cout<< "Top :"<< s.front() << endl; // 1
+   s.pop(); remove top element
+while( !s.empty()) {
+    cout<< s.top << " ";
+    s.pop();
+}// 1 2 3 
+same as size, swap, empty 
+ 
+3) Pririty queue: highest prority queue store in top. By default (highest value = highest prority) 
+#include<queue> 
+  pririty_queue<int> q;
+  s.push (5); 
+  s.push (10);
+  s.push (4);
+while( !s.empty()) {
+    cout<< q.top << " ";
+    q.pop();
+}
+// 10 5 4. in prority queue , for push and pop oparation the time complexity is O (logn), because it do sort.
+same as size, swap, empty
+//for low value = high priority. 
+priority_queue<int, vector <int>, greater<int >> q; 
+
+Associative Container: data store sorted order tree base. (set, map)
+1) Set: set stores value uniquely. element sorted. Access with iterator only
+#include<set>
+   set<int> s;    
+insert(x), erase(x), erase(iterator), find(x), count(x), size() , empty() , clear() , swap(s2)  
+lower_bound(x), upper_bound(x) 
+
+// Multiset: Same as set. but dublicate element possible.
+#include <set>  
+multiset<int> ms;
+
+//Unordered SET: Same as set. but elements not sorted. just lower_bound  and upper_bound not inlcuded
+#include <unordered_set>
+unordered_set<int> us;
+
+2) Map: First data type is key. it holds unique. and ascendingly sort. Map only can hold one key with one value. key and value can be any type
+#include<map>
+   map<string, int> m = {
+    {"Alice", 1},
+    {"Bob", 2},
+    {"Charlie", 3}
+   };
+   m["TV"] = 100;   or m.insert({"TV", 100}); or m.emplace("TV", 100)
+   m["Laptop"] = 50; 
+
+for (int i = 0; i < n; i++) {
+    cin >> key >> value;   
+    m[key] = value;         
+} 
+for (auto &p : m) {      //&p because big datawe want to skip copy
+    cout << p.first << p.second << endl;
+}  
+map<int, string> m2(m1);
+m.insert({Key, val}); or m.emplace(Key, val)
+m.count("Laptop") //return the number of keys of that name.
+m["Laptop"] // return the value of laptop.
+m.erase("TV"), erase(iterator) // now the tv removed from map.
+m.find()  size()  empty()  swap(m2)  clear() 
+find(key) //return iterator of that key
+count(key) 
+lower_bound(key)  upper_bound(key) 
+at(key), operator[]  
+
+//map with iterator
+for (map<string,int>::iterator it = m.begin(); it != m.end(); it++) {
+    cout << it->first << " => " << it->second << endl;
+} 
+for (map<string,int>::reverse_iterator rit = m.rbegin(); rit != m.rend(); rit++) {
+    cout << rit->first << " => " << rit->second << endl;
+}
+
+//#include<multi_map>:  Same as map, just dublicate key allowed. execpt operator[].   
+//#include <unordered_map>: Same as map just key store unsorted. execpt lower_bound(), upper_bound(). 
+ 
+Algorithms (STL).......................................................................
+#include<algorithm>
+//sort (Intro sort)  
+  sort(arr, arr + n ); or,  sort(arr.begin(), arr.end());   //avg,worst - nlogn best -n
+  stable_sort //for dublicate values their position sequence be same . avg,worst - nlog^2 .n best -n
+  sort(arr, arr + n, greater<int>()) //desc sort
+  binary_search(numbers.begin(), numbers.end(), 5)
+   
+//upper_bound, lower_bound : works in sorted order. both search with logn
+    vector<int> v = {1, 2, 4, 4, 4, 6, 8};
+    auto it1 = lower_bound(v.begin(), v.end(), 4);   //first value >= 4
+    auto it2 = upper_bound(v.begin(), v.end(), 4);   //last value > 4
+    cout << *it1 << endl; //4
+    cout << *it2 << endl; //6
+    cout << it2 - it1 // count of x. = 3
+
+//swap ranges 
+    swap_ranges(v1.begin(), v1.begin()+3, v2.begin()); //first 3 element swap 
+
+//Min-max
+    min (a,b), max (a,b) 
+    max_element (vec.begin (), vec.end());   min_element   //iterator return
+    auto p = minmax_element(v.begin(), v.end());
+    cout << *p.first << endl;   // 1
+    cout << *p.second << endl;  // 9
+
+//copy
+   vector<int> n1 = {1, 7, 3, 5, 9, 2};  vector<int> n2(6); 
+   copy(n1.begin(), n1.end(), n2.begin());
+   fill(n1.begin(), n1.end(), 35);  //all value of n1 will 35 
+   copy(n1.begin(), n1.begin() + 3, n1.begin() + 3); //1 7 3 1 7 3. first 3 elemnt overlap in index 3
+
+//count  
+   int amount = count(numbers.begin(), numbers.end(), 5); //3 
+   int x = count_if(v.begin(), v.end(), [](int x){ return x % 2 == 0; }); //with lamda function
+   bool isEven(int x){ return x % 2 == 0; }
+   int x = count_if(v.begin(), v.end(), isEven); // with normal function
+ 
+//Find 
+   auto it = find(numbers.begin(), numbers.end(), 3);  //if not found then retun numbers.end() 
+   auto it = adjacent_find(cars.begin(), cars.end());  //return the first dublicate pair togater  
+   auto it = find_first_of(numbers.begin(), numbers.end(), search.begin(), search.end()); //return first find value of two container
+   find_if, find_if_not
+
+//Merge 
+   vector<int> merged(8);
+   merge(numbers1.begin(), numbers1.end(), numbers2.begin(), numbers2.end(), merged.begin()); 
+  
+//next_permutation , prev_permutation.
+string a = "abc";
+next_permutation( a.begin() , a.end());
+cout << a;  // acb   //abc, acb, bac, bca, cab, cba
+
+// Rotate
+vector<int> v = {1, 2, 3, 4, 5};
+rotate(v.begin(), v.begin()+2, v.end()); // 3, 4, 5, 1, 2
+
+//Set 
+vector<int> a = {1,2,3}; vector<int> b = {2,3,4}; vector<int> result;
+set_union(a.begin(), a.end(), b.begin(), b.end(), back_inserter(result));  // 1,2,3,4
+set_intersection(a.begin(), a.end(), b.begin(), b.end(), back_inserter(result)) // {2,3}
+set_difference(a.begin(), a.end(), b.begin(), b.end(), back_inserter(result)); // {1,4}
+
+//Partition
+vector<int> v = {1,2,3,4,5,6};
+partition(v.begin(), v.end(), [](int x){ return x%2==0; }); //Condition(Even) numbers will come forward. but order random 
+stable_partition(v.begin(), v.end(), [](int x){ return x%2==0; }); now order will be proper
+
+//Accumulate
+vector<int> v = {1,2,3,4};
+int sum = accumulate(v.begin(), v.end(), 0);  // sum = 10. 0 for initilize fist addition num
+
+//Partial sum
+vector<int> v = {1,2,3,4};   vector<int> result;
+partial_sum(v.begin(), v.end(), back_inserter(result)); // Result: {1,3,6,10}
+
+//Adjacennt difference
+vector<int> v = {1,3,6,10};
+vector<int> result;
+adjacent_difference(v.begin(), v.end(), back_inserter(result)); // Result: {1,2,3,4}
+
+//iota
+vector<int> v(5);
+iota(v.begin(), v.end(), 10); // Result: {10,11,12,13,14}
+
+//Transform
+vector<int> v = {1,2,3};
+vector<int> result;
+transform(v.begin(), v.end(), back_inserter(result), [](int x){ return x*2; }); // Result: {2,4,6}  v.begin() in backinserter will modify v
+
+//remove
+vector<int> v = {1,2,3,2,4};
+auto it = remove(v.begin(), v.end(), 2);  // v = {1,3,4,?,?}, it points to new end
+remove just can shift, cant reduce size. using v.erase(it, v.end()); // Final: {1,3,4}
+
+//unique
+vector<int> v = {1,1,2,2,3,3};
+auto it = unique(v.begin(), v.end());  // v = {1,2,3,?,?}, it points to new end
+v.erase(it, v.end()); // Final: {1,2,3}
+ 
+Utilities: pair, tuple ................................................................
+1) Pair : an unit of a map. where map is combination of pairs , return two value
+#include<utility>
+  pair <int, int> a = {1, 2};   
+  cout<< a.first  
+  cout<< a.second
+  pair <int, pair<char, int >> a = {2, {'c', 3}};
+  cout<< p.first;    
+  cout<< p.second.first;
+  cout<< p.second.second;
+
+//vector of pairs
+  vector<pair<int, int >> vcc = {{2,3}, {3,1}, {2,2}}
+  for( auto i : vcc) {
+     cout<< p.first<< p.second;}
+  vcc.push_back ({4,5}); // insert. 
+  vcc.emplace_back (4,5);// make pair then insert.          
+
+2) Tuple can store multiple element unit. Pair and tupple are unit of data structures dont support library functions.
+#include<tuple> 
+tuple<int,string,double> student(101,"Rahim",85.5);
+cout << get<0>(student) // 101
+cout << get<1>(student) // Rahim
+cout << get<2>(student) // 85.5
+
+//Tie : for unpack values of tupple and pairs 
+int a; string b;
+pair<int,string> p = {1,"Apple"};
+tie(a,b) = p; // a=1, b=Apple
+
+tuple<int,string,double> t = {101,"Rahim",85.5};
+tie(a,b,ignore) = t; //last one not stored
+
+#include <functional>   
+    equal_to<int> eq;
+    not_equal_to, greater, less, greater_equal, less_equal, logical_and, logical_or, logical_not 
+#include <cmath> 
+pow(2, 3)  //8
+sqrt(16)   //or pow(16, 1.0/2.0)
+round(2.6) //3. return nearest int. for .5 then it goes to even values
+abs(-1000) //1000   
+
+3) Hash: convert a key (string, integer, object) in hash code 
+then store data in bucket with that hash code. search/insert/delete average 1 time need
+#include <bits/stdc++.h>
+    string key = "Rahim";
+    hash<string> h;
+    size_t hashValue = h(key);
+    cout << "Hash of " << key << " = " << hashValue ;  //Hash of Rahim = 1234567890 
+      
+    int bucketIndex = hashValue % 10;
+    cout << "Bucket index = " << bucketIndex << endl; //Bucket index = 0             
+
+    unordered_map<string,int> marks;
+    marks["Rahim"] = 95;
+    marks["Karim"] = 88;
+    cout << "Rahim -> " << marks["Rahim"] << endl;     //Rahim -> 95
+    for(auto &p : marks){
+        cout << p.first << " stored in bucket " << marks.bucket(p.first) << endl;
+    }   //Rahim stored in bucket 3 , Karim stored in bucket 7
